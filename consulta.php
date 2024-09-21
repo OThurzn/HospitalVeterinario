@@ -1,20 +1,12 @@
 <?php
 // Inicia sessões
 session_start();
-
 // Verifica se existe os dados da sessão de login
-if(!isset($_SESSION["email"]))
-{
-// Usuário não logado! Redireciona para a página de login
-header("Location: index.php");
-exit;
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit;
 }
-function desconectar(){
-    $_SESSION["email"] = null;
-}
-desconectar()
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -95,12 +87,12 @@ desconectar()
             //conta a quantidade de animais correspondentes na consulta (Count)
             $quantidade = count($resultado);
             echo "<div><div><p class=''>Resultado da consulta: " . $quantidade . " resultado(s)</p>";
-            
+
             //transfomação o array em string (implode) e criação de parametro para poder copiar a consulta, caso necessário
             $animais = implode(", ", $resultado);
             $parametro = '"' . $animais . '"';
             echo "<button onclick='Copiar(" . $parametro . ")'>Copiar Consulta</button></div>";
-            
+
             //mostrando todos os itens correnspondetes a consulta e suas respectivas fotos (manipulação de imagem) atráves de um for
             echo "<div class=''>";
             for ($i = 0; $i < $quantidade; $i++) {
@@ -111,7 +103,7 @@ desconectar()
             }
             echo "</div>";
             echo "</div>";
-            }
+        }
     }
     ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
