@@ -10,51 +10,81 @@
 </head>
 
 <body>
+    <script>
+        function Copiar(consulta) {
+            console.log(consulta);
+            navigator.clipboard.writeText(consulta);
+            alert("Resultado da consulta: " + consulta + ".");
+        }
+    </script>
     <?php
     $petsAtendidos = array("Gato", "Cachorro", "Peixe", "Hamster");
     $sivelstresAtendidos = array("Veado", "Jaguatirica", "Tamanduá");
     $totalAnimais = array_merge($petsAtendidos, $sivelstresAtendidos);
-
-    //Funções utilizadas: Count, Implode, In, Sort, Merge
     ?>
-    <label for="animais">Escolha os tipos de animais:</label>
+    <form method="POST" action="">
+        <label for="animais">Escolha os tipos de animais:</label>
 
-    <select name="animais" id="seletor" onchange="mostrarAnimais()">
-        <option value="pets">Apenas Pets</option>
-        <option value="silvestres">Apenas Silvestres</option>
-        <option value="total">Todos os animais</option>
-    </select>
-</body>
+        <select name="animais" id="seletor">
+            <option value="pets">Apenas Pets</option>
+            <option value="silvestres">Apenas Silvestres</option>
+            <option value="total">Todos os animais</option>
+        </select>
+        <br> <br>
+        <label for="especifico">Procure um animal especifico:</label>
+        <input type="text" id="especifico" name="especifico"><br>
 
-<script>
-        function mostrarAnimais() {
-            const selecionado = document.getElementById("animais").value;
+        <input type="submit" value="Enviar">
+    </form>
+    <?php
+    // Verifica se o formulário foi submetido
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Captura o valor selecionado
+        $tipoAnimal = $_POST['animais'];
+        if ($tipoAnimal == "pets") {
+            $resultado = $petsAtendidos;
+        } elseif ($tipoAnimal == "silvestres") {
+            $resultado = $sivelstresAtendidos;
 
-            // Animais disponíveis (pode ser melhorado para não usar PHP dentro do JS)
-            const pets = <?php echo json_encode($petsAtendidos); ?>;
-            const silvestres = <?php echo json_encode($sivelstresAtendidos); ?>;
-            const todos = <?php echo json_encode($totalAnimais); ?>;
+        } elseif ($tipoAnimal == "total") {
 
-            let resultado;
-            if (selecionado === "pets") {
-                resultado = pets;
-            } else if (selecionado === "silvestres") {
-                resultado = silvestres;
+            $resultado = $totalAnimais;
+        }
+        if (!empty($_POST['especifico'])) {
+            $especifico = htmlspecialchars($_POST['especifico']);
+            $encontrado = in_array($especifico, $resultado);
+            $parametro = '"' . $especifico . '"';
+            if ($encontrado) {
+                echo "<p class=''>Resultado da consulta: Animal Encontrado</p>";
+                echo "<button onclick='Copiar(" . $parametro . ")'>Copiar Consulta</button>";
+                echo "<img class='' src='imgs/" . $especifico . ".png' alt=" . $especifico . ">";
             } else {
-                resultado = todos;
+                echo "<p class=''>Resultado da consulta: Sem resultados</p>";
             }
 
-            // Exibe o resultado
-            document.getElementById("resultado").innerHTML = resultado.join(", ");
-            
-        }
-</script>
-<?php 
-    echo 'imgs\ . $petsAtendidos . '.png";
-?>
+        } else {
+            sort($resultado);
+            $animais = implode(", ", $resultado);
+            $quantidade = count($resultado);
+            $parametro = '"' . $animais . '"';
+            echo "<p class=''>Resultado da consulta: " . $quantidade . " resultado(s)</p>";
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+            echo "<button onclick='Copiar(" . $parametro . ")'>Copiar Consulta</button>";
+            echo "<div class=''>";
+            for ($i = 0; $i < $quantidade; $i++) {
+                echo "<div class=''>";
+                echo "<p class=''>" . $resultado[$i] . "</p>";
+                echo "<img class='' src='imgs/" . $resultado[$i] . ".png' alt=" . $resultado[$i] . "><br><br>";
+                echo "</div>";
+            }
+            echo "</div>";
+        }
+    }
+    ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA5NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
 
 </html>

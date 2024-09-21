@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha_login = md5($_POST["campo_senha"]);
 
     // Nome de usuário e senha válidos
-    $email_admin = "1@etec.com";
-    $senha_admin="c4ca4238a0b923820dcc509a6f75849b";/*senha: 1**/
+    $email_admin = "admin@etec.com";
+    $senha_admin="21232f297a57a5a743894a0e4a801fc3";/*senha: admin**/
 
     // Verifique se o usuário e a senha estão corretos
     if ($email_login === $email_admin && $senha_login === $senha_login) {
