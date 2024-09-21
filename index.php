@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Captura os dados fornecidos pelo usuário
@@ -10,9 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha_admin="21232f297a57a5a743894a0e4a801fc3";/*senha: admin*/
 
     // Verifica se o usuário e a senha estão corretos
-    if ($email_login === $email_admin && $senha_login === $senha_login) {        
+    if ($email_login === $email_admin && $senha_login === $senha_admin) {        
         // Redireciona para o destino
         header('Location: consulta.php');
+		$_SESSION["email"] = $email_login;
+        exit();
     } else {
         $error = "Usuário ou senha inválidos.";
     }
