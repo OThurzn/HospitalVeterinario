@@ -1,22 +1,18 @@
 <?php
-// Verifique se o formulário foi enviado
+// Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Capture os dados fornecidos pelo usuário
+    // Captura os dados fornecidos pelo usuário
     $email_login = $_POST["campo_email"];
     $senha_login = md5($_POST["campo_senha"]);
 
     // Nome de usuário e senha válidos
     $email_admin = "admin@etec.com";
-    $senha_admin="21232f297a57a5a743894a0e4a801fc3";/*senha: admin**/
+    $senha_admin="21232f297a57a5a743894a0e4a801fc3";/*senha: admin*/
 
-    // Verifique se o usuário e a senha estão corretos
-    if ($email_login === $email_admin && $senha_login === $senha_login) {
-        // Armazene o nome do usuário na sessão
-        $_SESSION['email'] = $email_login;
-        
-        // Redirecione para o destino
+    // Verifica se o usuário e a senha estão corretos
+    if ($email_login === $email_admin && $senha_login === $senha_login) {        
+        // Redireciona para o destino
         header('Location: consulta.php');
-        exit();
     } else {
         $error = "Usuário ou senha inválidos.";
     }
