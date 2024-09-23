@@ -16,8 +16,9 @@ session_start();
 </head>
 
 <body>
+<img src="imgs/logo2.png" class="position-absolute start-50 top-0 translate-middle" id="imagelogo2">
     <h1 class="position-absolute start-50 translate-middle" id="h1">LOGIN SEGURO</h1>
-    <div class="position-absolute top-50 start-50 translate-middle bg-success rounded-pill" id="div_1">
+    <div class="position-absolute top-50 start-50 translate-middle bg-success rounded mt-5 shadow-lg" id="div_1">
         <?php if (isset($error)) {
             echo "<p style='color:red;'>$error</p>";
         } ?>
